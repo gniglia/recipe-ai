@@ -1,0 +1,178 @@
+import { Recipe } from "@/types/recipe";
+
+export const sampleRecipes: Recipe[] = [
+  {
+    id: "1",
+    title: "Classic Spaghetti Carbonara",
+    description:
+      "A traditional Italian pasta dish with eggs, cheese, and pancetta",
+    imageUrl: null, // Will use gradient placeholder
+    prepTime: 15,
+    cookTime: 20,
+    servings: 4,
+    difficulty: "medium",
+    cuisine: "Italian",
+    tags: ["pasta", "quick", "comfort-food"],
+    ingredients: [
+      { id: "1", name: "Spaghetti", amount: 400, unit: "g" },
+      { id: "2", name: "Pancetta", amount: 150, unit: "g" },
+      { id: "3", name: "Eggs", amount: 3, unit: "large" },
+      { id: "4", name: "Parmesan cheese", amount: 100, unit: "g" },
+      { id: "5", name: "Black pepper", amount: 1, unit: "tsp" },
+    ],
+    steps: [
+      {
+        id: "1",
+        stepNumber: 1,
+        instruction: "Cook spaghetti in salted boiling water until al dente",
+        estimatedTime: 12,
+      },
+      {
+        id: "2",
+        stepNumber: 2,
+        instruction: "Fry pancetta until crispy",
+        estimatedTime: 5,
+      },
+      {
+        id: "3",
+        stepNumber: 3,
+        instruction: "Whisk eggs with grated Parmesan and black pepper",
+        estimatedTime: 2,
+      },
+      {
+        id: "4",
+        stepNumber: 4,
+        instruction: "Toss hot pasta with pancetta and egg mixture",
+        estimatedTime: 3,
+      },
+    ],
+    nutritionInfo: {
+      calories: 520,
+      protein: 25,
+      carbs: 45,
+      fat: 28,
+    },
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
+  },
+  {
+    id: "2",
+    title: "Chicken Tikka Masala",
+    description: "Creamy and flavorful Indian curry with tender chicken pieces",
+    imageUrl: null, // Will use gradient placeholder
+    prepTime: 30,
+    cookTime: 40,
+    servings: 6,
+    difficulty: "medium",
+    cuisine: "Indian",
+    tags: ["curry", "spicy", "chicken"],
+    ingredients: [
+      { id: "6", name: "Chicken breast", amount: 500, unit: "g" },
+      { id: "7", name: "Yogurt", amount: 200, unit: "ml" },
+      { id: "8", name: "Onion", amount: 1, unit: "large" },
+      { id: "9", name: "Tomato sauce", amount: 400, unit: "ml" },
+      { id: "10", name: "Heavy cream", amount: 150, unit: "ml" },
+      { id: "11", name: "Garam masala", amount: 2, unit: "tsp" },
+    ],
+    steps: [
+      {
+        id: "5",
+        stepNumber: 1,
+        instruction: "Marinate chicken in yogurt and spices for 30 minutes",
+        estimatedTime: 30,
+      },
+      {
+        id: "6",
+        stepNumber: 2,
+        instruction: "Cook marinated chicken until golden",
+        estimatedTime: 10,
+      },
+      {
+        id: "7",
+        stepNumber: 3,
+        instruction: "Sauté onions until soft and translucent",
+        estimatedTime: 8,
+      },
+      {
+        id: "8",
+        stepNumber: 4,
+        instruction: "Add tomato sauce and simmer",
+        estimatedTime: 15,
+      },
+      {
+        id: "9",
+        stepNumber: 5,
+        instruction: "Add chicken back and stir in cream",
+        estimatedTime: 5,
+      },
+    ],
+    nutritionInfo: {
+      calories: 380,
+      protein: 32,
+      carbs: 12,
+      fat: 22,
+    },
+    createdAt: new Date("2024-01-16"),
+    updatedAt: new Date("2024-01-16"),
+  },
+  {
+    id: "3",
+    title: "Chocolate Chip Cookies",
+    description: "Soft and chewy homemade cookies perfect for any occasion",
+    imageUrl: null, // Will use gradient placeholder
+    prepTime: 15,
+    cookTime: 12,
+    servings: 24,
+    difficulty: "easy",
+    cuisine: "American",
+    tags: ["dessert", "baking", "sweet"],
+    ingredients: [
+      { id: "12", name: "All-purpose flour", amount: 300, unit: "g" },
+      { id: "13", name: "Butter", amount: 150, unit: "g" },
+      { id: "14", name: "Brown sugar", amount: 100, unit: "g" },
+      { id: "15", name: "White sugar", amount: 50, unit: "g" },
+      { id: "16", name: "Eggs", amount: 1, unit: "large" },
+      { id: "17", name: "Chocolate chips", amount: 200, unit: "g" },
+    ],
+    steps: [
+      {
+        id: "10",
+        stepNumber: 1,
+        instruction: "Preheat oven to 180°C (350°F)",
+        estimatedTime: 2,
+      },
+      {
+        id: "11",
+        stepNumber: 2,
+        instruction: "Cream butter with both sugars",
+        estimatedTime: 3,
+      },
+      {
+        id: "12",
+        stepNumber: 3,
+        instruction: "Beat in egg and mix in flour",
+        estimatedTime: 5,
+      },
+      {
+        id: "13",
+        stepNumber: 4,
+        instruction: "Fold in chocolate chips",
+        estimatedTime: 2,
+      },
+      {
+        id: "14",
+        stepNumber: 5,
+        instruction: "Bake for 10-12 minutes until golden",
+        estimatedTime: 12,
+      },
+    ],
+    nutritionInfo: {
+      calories: 180,
+      protein: 3,
+      carbs: 24,
+      fat: 8,
+    },
+    createdAt: new Date("2024-01-17"),
+    updatedAt: new Date("2024-01-17"),
+  },
+];
