@@ -126,13 +126,18 @@ Return the response as valid JSON in this exact format:
   "difficulty": "medium",
   "cuisine": "Italian",
   "ingredients": [
-    {"name": "ingredient name", "amount": 2, "unit": "cups"}
+    {"name": "ingredient name", "amount": 2.5, "unit": "cups", "notes": "optional"}
   ],
   "steps": [
     {"stepNumber": 1, "instruction": "Step instruction", "estimatedTime": 5}
   ],
   "tags": ["tag1", "tag2", "tag3"]
-}`;
+}
+
+IMPORTANT:
+- Use ONLY decimal numbers for amounts (0.25, 0.5, 1.5) - NEVER use fractions (1/4, 1/2)
+- Return ONLY valid JSON without any markdown code blocks or extra text
+- Do not include any comments or explanations outside the JSON`;
 
     const result = await model.generateContent({
       contents: [
@@ -165,7 +170,7 @@ Remember: Return ONLY the JSON object, nothing else.`,
 
     console.log("🔍 Raw Gemini response:", responseText);
 
-    // Clean the response - remove markdown code blocks if present
+    // Clean the response - remove markdown code blocks and other artifacts
     let cleanedResponse = responseText.trim();
 
     // Remove markdown code blocks (```json ... ``` or ``` ... ```)
@@ -179,11 +184,47 @@ Remember: Return ONLY the JSON object, nothing else.`,
       }
     }
 
+    // Remove any leading/trailing non-JSON content
+    // Find the first { and last }
+    const firstBrace = cleanedResponse.indexOf("{");
+    const lastBrace = cleanedResponse.lastIndexOf("}");
+
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      cleanedResponse = cleanedResponse.substring(firstBrace, lastBrace + 1);
+    }
+
+    // Remove any comments (// or /* */) that might be in the JSON
+    cleanedResponse = cleanedResponse
+      .replace(/\/\*[\s\S]*?\*\//g, "") // Remove /* */ comments
+      .replace(/\/\/.*$/gm, ""); // Remove // comments
+
+    // Convert fractions to decimals (e.g., 1/4 -> 0.25, 1/2 -> 0.5)
+    cleanedResponse = cleanedResponse.replace(
+      /(\d+)\/(\d+)/g,
+      (match: string, numerator: string, denominator: string) => {
+        const result = parseInt(numerator) / parseInt(denominator);
+        return result.toString();
+      },
+    );
+
     console.log("🧹 Cleaned response:", cleanedResponse);
 
-    // Parse the JSON response
-    const generatedRecipe: GeneratedRecipeResponse =
-      JSON.parse(cleanedResponse);
+    // Parse the JSON response with error handling
+    let generatedRecipe: GeneratedRecipeResponse;
+    try {
+      generatedRecipe = JSON.parse(cleanedResponse);
+    } catch (parseError) {
+      console.error("❌ JSON parsing failed:", parseError);
+      console.error(
+        "❌ Attempted to parse:",
+        cleanedResponse.substring(0, 1000) + "...",
+      );
+      throw new Error(
+        `Failed to parse AI response as JSON: ${
+          parseError instanceof Error ? parseError.message : "Unknown error"
+        }`,
+      );
+    }
 
     return NextResponse.json({
       success: true,

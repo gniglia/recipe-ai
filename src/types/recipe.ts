@@ -20,7 +20,7 @@ export interface Recipe {
   prepTime: number; // in minutes
   cookTime: number; // in minutes
   servings: number;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   cuisine?: string;
   tags: string[];
   ingredients: Ingredient[];
@@ -36,9 +36,12 @@ export interface Recipe {
 }
 
 export interface RecipeFilters {
-  cuisine?: string;
-  difficulty?: Recipe['difficulty'];
+  cuisine?: string[];
+  difficulty?: Recipe["difficulty"];
   maxPrepTime?: number;
   tags?: string[];
   searchQuery?: string;
+  source?: "all" | "ai-generated" | "regular";
+  sortBy?: "newest" | "cookTime" | "difficulty" | "title";
+  dietary?: string[]; // New dietary restrictions filter
 }

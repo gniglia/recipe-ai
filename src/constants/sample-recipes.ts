@@ -6,7 +6,7 @@ export const sampleRecipes: Recipe[] = [
     title: "Classic Spaghetti Carbonara",
     description:
       "A traditional Italian pasta dish with eggs, cheese, and pancetta",
-    imageUrl: null, // Will use gradient placeholder
+    imageUrl: undefined, // Will use gradient placeholder
     prepTime: 15,
     cookTime: 20,
     servings: 4,
@@ -59,13 +59,13 @@ export const sampleRecipes: Recipe[] = [
     id: "2",
     title: "Chicken Tikka Masala",
     description: "Creamy and flavorful Indian curry with tender chicken pieces",
-    imageUrl: null, // Will use gradient placeholder
+    imageUrl: undefined, // Will use gradient placeholder
     prepTime: 30,
     cookTime: 40,
     servings: 6,
     difficulty: "medium",
     cuisine: "Indian",
-    tags: ["curry", "spicy", "chicken"],
+    tags: ["curry", "spicy", "chicken", "gluten-free", "dairy-free"],
     ingredients: [
       { id: "6", name: "Chicken breast", amount: 500, unit: "g" },
       { id: "7", name: "Yogurt", amount: 200, unit: "ml" },
@@ -119,13 +119,13 @@ export const sampleRecipes: Recipe[] = [
     id: "3",
     title: "Chocolate Chip Cookies",
     description: "Soft and chewy homemade cookies perfect for any occasion",
-    imageUrl: null, // Will use gradient placeholder
+    imageUrl: undefined, // Will use gradient placeholder
     prepTime: 15,
     cookTime: 12,
     servings: 24,
     difficulty: "easy",
     cuisine: "American",
-    tags: ["dessert", "baking", "sweet"],
+    tags: ["dessert", "baking", "sweet", "vegetarian"],
     ingredients: [
       { id: "12", name: "All-purpose flour", amount: 300, unit: "g" },
       { id: "13", name: "Butter", amount: 150, unit: "g" },
@@ -174,5 +174,130 @@ export const sampleRecipes: Recipe[] = [
     },
     createdAt: new Date("2024-01-17"),
     updatedAt: new Date("2024-01-17"),
+  },
+  {
+    id: "4",
+    title: "Mediterranean Quinoa Bowl",
+    description:
+      "Fresh and healthy bowl with quinoa, vegetables, and feta cheese",
+    imageUrl: undefined, // Will use gradient placeholder
+    prepTime: 20,
+    cookTime: 25,
+    servings: 4,
+    difficulty: "easy",
+    cuisine: "Mediterranean",
+    tags: ["healthy", "vegetarian", "quinoa", "fresh", "gluten-free"],
+    ingredients: [
+      { id: "18", name: "Quinoa", amount: 200, unit: "g" },
+      { id: "19", name: "Cherry tomatoes", amount: 300, unit: "g" },
+      { id: "20", name: "Cucumber", amount: 1, unit: "large" },
+      { id: "21", name: "Red onion", amount: 0.5, unit: "medium" },
+      { id: "22", name: "Feta cheese", amount: 150, unit: "g" },
+      { id: "23", name: "Olive oil", amount: 3, unit: "tbsp" },
+      { id: "24", name: "Lemon juice", amount: 2, unit: "tbsp" },
+    ],
+    steps: [
+      {
+        id: "15",
+        stepNumber: 1,
+        instruction: "Cook quinoa according to package instructions",
+        estimatedTime: 15,
+      },
+      {
+        id: "16",
+        stepNumber: 2,
+        instruction: "Dice cucumber, tomatoes, and red onion",
+        estimatedTime: 10,
+      },
+      {
+        id: "17",
+        stepNumber: 3,
+        instruction: "Let quinoa cool completely",
+        estimatedTime: 10,
+      },
+      {
+        id: "18",
+        stepNumber: 4,
+        instruction: "Mix quinoa with vegetables and feta",
+        estimatedTime: 5,
+      },
+      {
+        id: "19",
+        stepNumber: 5,
+        instruction: "Dress with olive oil and lemon juice",
+        estimatedTime: 2,
+      },
+    ],
+    nutritionInfo: {
+      calories: 320,
+      protein: 14,
+      carbs: 42,
+      fat: 12,
+    },
+    createdAt: new Date("2024-01-18"),
+    updatedAt: new Date("2024-01-18"),
+  },
+  {
+    id: "5",
+    title: "Thai Green Curry",
+    description:
+      "Aromatic and spicy Thai curry with coconut milk and fresh basil",
+    imageUrl: undefined, // Will use gradient placeholder
+    prepTime: 25,
+    cookTime: 30,
+    servings: 4,
+    difficulty: "medium",
+    cuisine: "Thai",
+    tags: ["curry", "spicy", "coconut", "asian", "dairy-free"],
+    ingredients: [
+      { id: "25", name: "Chicken thigh", amount: 500, unit: "g" },
+      { id: "26", name: "Coconut milk", amount: 400, unit: "ml" },
+      { id: "27", name: "Green curry paste", amount: 3, unit: "tbsp" },
+      { id: "28", name: "Thai eggplant", amount: 200, unit: "g" },
+      { id: "29", name: "Bell pepper", amount: 1, unit: "large" },
+      { id: "30", name: "Thai basil", amount: 30, unit: "g" },
+      { id: "31", name: "Fish sauce", amount: 2, unit: "tbsp" },
+      { id: "32", name: "Palm sugar", amount: 1, unit: "tbsp" },
+    ],
+    steps: [
+      {
+        id: "20",
+        stepNumber: 1,
+        instruction: "Heat coconut milk and curry paste in a wok",
+        estimatedTime: 5,
+      },
+      {
+        id: "21",
+        stepNumber: 2,
+        instruction: "Add chicken and cook until tender",
+        estimatedTime: 12,
+      },
+      {
+        id: "22",
+        stepNumber: 3,
+        instruction: "Add eggplant and bell pepper",
+        estimatedTime: 8,
+      },
+      {
+        id: "23",
+        stepNumber: 4,
+        instruction: "Season with fish sauce and palm sugar",
+        estimatedTime: 2,
+      },
+      {
+        id: "24",
+        stepNumber: 5,
+        instruction: "Garnish with fresh Thai basil",
+        estimatedTime: 1,
+      },
+    ],
+    nutritionInfo: {
+      calories: 420,
+      protein: 28,
+      carbs: 15,
+      fat: 30,
+    },
+    createdAt: new Date("2024-01-19"),
+    updatedAt: new Date("2024-01-19"),
   },
 ];

@@ -1,145 +1,88 @@
 import { create } from "zustand";
 import { Recipe, RecipeFilters } from "@/types/recipe";
 import { sampleRecipes } from "@/constants/sample-recipes";
+import {
+  RecipeState,
+  recipeStateTransforms,
+  createInitialRecipeState,
+} from "@/utils/recipe-state";
 
-interface RecipeState {
-  // Recipe data
-  recipes: Recipe[];
-  filteredRecipes: Recipe[];
-  selectedRecipe: Recipe | null;
+// Functional store with pure state transformations
+export const useRecipeStore = create<
+  RecipeState & {
+    // Actions that transform state functionally
+    setRecipes: (recipes: Recipe[]) => void;
+    addRecipe: (recipe: Recipe) => void;
+    updateRecipe: (id: string, updates: Partial<Recipe>) => void;
+    deleteRecipe: (id: string) => void;
+    setSelectedRecipe: (recipe: Recipe | null) => void;
+    setSearchQuery: (query: string) => void;
+    setFilters: (filters: Partial<RecipeFilters>) => void;
+    clearFilters: () => void;
+    setLoading: (isLoading: boolean) => void;
+    setGenerating: (isGenerating: boolean) => void;
 
-  // Filters and search
-  filters: RecipeFilters;
-  searchQuery: string;
+    // Favorite actions
+    toggleFavorite: (recipeId: string) => void;
+    setFavorites: (favoriteIds: string[]) => void;
+    clearFavorites: () => void;
+    isFavorite: (recipeId: string) => boolean;
+    getFavoriteRecipes: () => Recipe[];
+  }
+>((set) => ({
+  // Initial state using pure function
+  ...createInitialRecipeState(sampleRecipes),
 
-  // Loading states
-  isLoading: boolean;
-  isGenerating: boolean;
+  // Pure functional actions - each uses immutable state transformations
+  setRecipes: (recipes: Recipe[]) =>
+    set((state) => recipeStateTransforms.setRecipes(state, recipes)),
 
-  // Actions
-  setRecipes: (recipes: Recipe[]) => void;
-  addRecipe: (recipe: Recipe) => void;
-  updateRecipe: (id: string, recipe: Partial<Recipe>) => void;
-  deleteRecipe: (id: string) => void;
-  setSelectedRecipe: (recipe: Recipe | null) => void;
+  addRecipe: (recipe: Recipe) =>
+    set((state) => recipeStateTransforms.addRecipe(state, recipe)),
 
-  // Filter actions
-  setSearchQuery: (query: string) => void;
-  setFilters: (filters: Partial<RecipeFilters>) => void;
-  clearFilters: () => void;
-  applyFilters: () => void;
+  updateRecipe: (id: string, updates: Partial<Recipe>) =>
+    set((state) => recipeStateTransforms.updateRecipe(state, id, updates)),
 
-  // Loading actions
-  setLoading: (loading: boolean) => void;
-  setGenerating: (generating: boolean) => void;
-}
+  deleteRecipe: (id: string) =>
+    set((state) => recipeStateTransforms.removeRecipe(state, id)),
 
-export const useRecipeStore = create<RecipeState>((set, get) => ({
-  // Initial state
-  recipes: sampleRecipes,
-  filteredRecipes: sampleRecipes,
-  selectedRecipe: null,
-  filters: {},
-  searchQuery: "",
-  isLoading: false,
-  isGenerating: false,
+  setSelectedRecipe: (recipe: Recipe | null) =>
+    set((state) => recipeStateTransforms.selectRecipe(state, recipe)),
 
-  // Recipe actions
-  setRecipes: (recipes) => {
-    set({ recipes, filteredRecipes: recipes });
-    get().applyFilters();
+  setSearchQuery: (searchQuery: string) =>
+    set((state) => recipeStateTransforms.setSearchQuery(state, searchQuery)),
+
+  setFilters: (newFilters: Partial<RecipeFilters>) =>
+    set((state) => recipeStateTransforms.setFilters(state, newFilters)),
+
+  clearFilters: () => set((state) => recipeStateTransforms.clearFilters(state)),
+
+  setLoading: (isLoading: boolean) =>
+    set((state) => recipeStateTransforms.setLoading(state, isLoading)),
+
+  setGenerating: (isGenerating: boolean) =>
+    set((state) => recipeStateTransforms.setGenerating(state, isGenerating)),
+
+  // Favorite actions
+  toggleFavorite: (recipeId: string) =>
+    set((state) => recipeStateTransforms.toggleFavorite(state, recipeId)),
+
+  setFavorites: (favoriteIds: string[]) =>
+    set((state) => recipeStateTransforms.setFavorites(state, favoriteIds)),
+
+  clearFavorites: () =>
+    set((state) => recipeStateTransforms.clearFavorites(state)),
+
+  // Favorite selectors as methods
+  isFavorite: (recipeId: string): boolean => {
+    const state = useRecipeStore.getState() as RecipeState;
+    return state.favoriteRecipeIds.includes(recipeId);
   },
 
-  addRecipe: (recipe) => {
-    const { recipes } = get();
-    const newRecipes = [recipe, ...recipes];
-    set({ recipes: newRecipes });
-    get().applyFilters();
-  },
-
-  updateRecipe: (id, updatedRecipe) => {
-    const { recipes } = get();
-    const newRecipes = recipes.map((recipe) =>
-      recipe.id === id ? { ...recipe, ...updatedRecipe } : recipe,
+  getFavoriteRecipes: (): Recipe[] => {
+    const state = useRecipeStore.getState() as RecipeState;
+    return state.recipes.filter((recipe: Recipe) =>
+      state.favoriteRecipeIds.includes(recipe.id),
     );
-    set({ recipes: newRecipes });
-    get().applyFilters();
   },
-
-  deleteRecipe: (id) => {
-    const { recipes } = get();
-    const newRecipes = recipes.filter((recipe) => recipe.id !== id);
-    set({ recipes: newRecipes });
-    get().applyFilters();
-  },
-
-  setSelectedRecipe: (recipe) => set({ selectedRecipe: recipe }),
-
-  // Filter actions
-  setSearchQuery: (searchQuery) => {
-    set({ searchQuery });
-    get().applyFilters();
-  },
-
-  setFilters: (newFilters) => {
-    const { filters } = get();
-    set({ filters: { ...filters, ...newFilters } });
-    get().applyFilters();
-  },
-
-  clearFilters: () => {
-    set({ filters: {}, searchQuery: "" });
-    get().applyFilters();
-  },
-
-  applyFilters: () => {
-    const { recipes, filters, searchQuery } = get();
-    let filtered = [...recipes];
-
-    // Apply search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (recipe) =>
-          recipe.title.toLowerCase().includes(query) ||
-          recipe.description.toLowerCase().includes(query) ||
-          recipe.tags.some((tag) => tag.toLowerCase().includes(query)) ||
-          recipe.cuisine?.toLowerCase().includes(query),
-      );
-    }
-
-    // Apply cuisine filter
-    if (filters.cuisine) {
-      filtered = filtered.filter(
-        (recipe) => recipe.cuisine === filters.cuisine,
-      );
-    }
-
-    // Apply difficulty filter
-    if (filters.difficulty) {
-      filtered = filtered.filter(
-        (recipe) => recipe.difficulty === filters.difficulty,
-      );
-    }
-
-    // Apply max prep time filter
-    if (filters.maxPrepTime) {
-      filtered = filtered.filter(
-        (recipe) => recipe.prepTime <= filters.maxPrepTime!,
-      );
-    }
-
-    // Apply tags filter
-    if (filters.tags && filters.tags.length > 0) {
-      filtered = filtered.filter((recipe) =>
-        filters.tags!.some((tag) => recipe.tags.includes(tag)),
-      );
-    }
-
-    set({ filteredRecipes: filtered });
-  },
-
-  // Loading actions
-  setLoading: (isLoading) => set({ isLoading }),
-  setGenerating: (isGenerating) => set({ isGenerating }),
 }));

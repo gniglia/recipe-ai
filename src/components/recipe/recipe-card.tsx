@@ -1,8 +1,13 @@
 import { Recipe } from "@/types/recipe";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Users, ChefHat, Heart, Star } from "lucide-react";
-import { getRecipeGradient, getRecipeIcon } from "@/lib/image-service";
+import { ChefHat, Sparkles } from "lucide-react";
+import { useRecipeStore } from "@/stores/recipe-store";
+
+import { RecipeMetaInfo } from "./recipe-meta-info";
+import { DifficultyBadge } from "@/components/ui/difficulty-badge";
+import { FavoriteButton } from "./favorite-button";
+import { RecipeImage } from "./recipe-image";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -10,106 +15,98 @@ interface RecipeCardProps {
 }
 
 export function RecipeCard({ recipe, onClick }: RecipeCardProps) {
-  const totalTime = recipe.prepTime + recipe.cookTime;
+  const { toggleFavorite, favoriteRecipeIds } = useRecipeStore();
 
-  // Generate a consistent rating based on recipe ID for demo purposes
-  const hash = recipe.id.split("").reduce((a, b) => a + b.charCodeAt(0), 0);
-  const rating = 4.0 + (hash % 10) / 10;
-  const reviewCount = 50 + (hash % 200);
+  // Check if this recipe is favorited
+  const isFavorited = favoriteRecipeIds.includes(recipe.id);
+  const isAIGenerated =
+    recipe.id.startsWith("ai-") || recipe.tags.includes("ai-generated");
 
-  // Get recipe-specific gradient and icon
-  const gradient = getRecipeGradient(recipe.title);
-  const icon = getRecipeIcon(recipe.title);
+  // Handle favorite toggle
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking heart
+    toggleFavorite(recipe.id);
+  };
 
   return (
     <Card
-      className="group hover:shadow-xl transition-all duration-300 cursor-pointer bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:-translate-y-1 overflow-hidden"
+      className="group hover:shadow-xl transition-all duration-300 cursor-pointer bg-white border-0 shadow-lg hover:-translate-y-1 overflow-hidden pt-0 pb-6 h-[420px] flex flex-col rounded-lg"
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`View recipe details for ${recipe.title}`}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       {/* Recipe Image with Smart Placeholder */}
-      <div
-        className={`relative h-40 sm:h-48 bg-gradient-to-br ${gradient} overflow-hidden`}
+      <RecipeImage
+        recipe={recipe}
+        className="h-48 flex-shrink-0"
+        variant="card"
       >
-        {recipe.imageUrl ? (
-          <>
-            <img
-              src={recipe.imageUrl}
-              alt={recipe.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-          </>
-        ) : (
-          <>
-            {/* Beautiful gradient placeholder with recipe icon */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-6xl sm:text-7xl opacity-20">{icon}</div>
-            </div>
-          </>
-        )}
-
         {/* Favorite Button */}
-        <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors group">
-          <Heart className="h-4 w-4 text-gray-600 group-hover:text-rose-500 transition-colors" />
-        </button>
+        <FavoriteButton
+          isFavorite={isFavorited}
+          onClick={handleFavoriteClick}
+          variant="card"
+          className="absolute top-3 right-3"
+        />
 
-        {/* Difficulty Badge */}
+        {/* Difficulty Badge + AI Badge */}
         <div className="absolute top-3 left-3">
-          <Badge
-            className={
-              recipe.difficulty === "easy"
-                ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 border-emerald-200"
-                : recipe.difficulty === "medium"
-                ? "bg-amber-100 text-amber-700 hover:bg-amber-200 border-amber-200"
-                : "bg-rose-100 text-rose-700 hover:bg-rose-200 border-rose-200"
-            }
-          >
-            {recipe.difficulty}
-          </Badge>
+          <DifficultyBadge difficulty={recipe.difficulty} />
+          {isAIGenerated && (
+            <div className="mt-2">
+              <Badge className="bg-gradient-to-r from-emerald-500 to-purple-500 text-white border-0">
+                <Sparkles className="h-3 w-3 mr-1" /> AI
+              </Badge>
+            </div>
+          )}
         </div>
 
         {/* Cooking Time */}
         <div className="absolute bottom-3 left-3">
-          <div className="flex items-center gap-1 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs text-gray-700">
-            <Clock className="h-3 w-3" />
-            <span>{totalTime} min</span>
+          <div className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full">
+            <RecipeMetaInfo
+              recipe={recipe}
+              showRating={false}
+              showServings={false}
+              variant="compact"
+              className="text-xs text-gray-700"
+            />
           </div>
         </div>
-      </div>
+      </RecipeImage>
 
-      <CardHeader className="pb-3">
-        <div className="flex justify-between items-start">
-          <CardTitle className="text-lg line-clamp-2 group-hover:text-orange-600 transition-colors">
-            {recipe.title}
-          </CardTitle>
-        </div>
-
+      {/* Card Content - Flexible */}
+      <div className="flex flex-col flex-1 px-4 pt-3 pb-0">
         {/* Rating */}
-        <div className="flex items-center gap-2 text-sm">
-          <div className="flex items-center gap-1">
-            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            <span className="font-medium text-gray-700">
-              {rating.toFixed(1)}
-            </span>
-          </div>
-          <span className="text-gray-400">•</span>
-          <span className="text-gray-500">{reviewCount} reviews</span>
-        </div>
+        <RecipeMetaInfo
+          recipe={recipe}
+          showTime={false}
+          showServings={false}
+          variant="card"
+          className="mb-2"
+        />
 
-        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
-          {recipe.description}
-        </p>
-      </CardHeader>
+        {/* Title */}
+        <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-emerald-600 transition-colors mb-3 min-h-[3rem]">
+          {recipe.title}
+        </h3>
 
-      <CardContent className="pt-0">
         {/* Recipe Info */}
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-3 pb-3 border-b border-gray-100">
-          <div className="flex items-center gap-1">
-            <Users className="h-3 w-3" />
-            <span>{recipe.servings} servings</span>
-          </div>
+        <div className="flex items-center justify-between text-sm text-gray-500 mb-2 pb-2 border-b border-gray-100">
+          <RecipeMetaInfo
+            recipe={recipe}
+            showRating={false}
+            showTime={false}
+            variant="card"
+            className="text-sm"
+          />
           <div className="flex items-center gap-1">
             <ChefHat className="h-3 w-3" />
             <span>{recipe.cuisine}</span>
@@ -136,7 +133,7 @@ export function RecipeCard({ recipe, onClick }: RecipeCardProps) {
             </Badge>
           )}
         </div>
-      </CardContent>
+      </div>
     </Card>
   );
 }

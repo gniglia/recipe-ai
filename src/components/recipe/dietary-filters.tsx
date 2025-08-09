@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { useRecipeStore } from "@/stores/recipe-store";
 
 interface DietaryFilter {
   id: string;
@@ -17,52 +18,49 @@ const dietaryFilters: DietaryFilter[] = [
     id: "all",
     label: "All",
     emoji: "🍽️",
-    color: "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200",
+    color: "",
     description: "Show all recipes",
   },
   {
     id: "vegetarian",
     label: "Vegetarian",
     emoji: "🥬",
-    color: "bg-green-100 text-green-700 hover:bg-green-200 border-green-200",
+    color: "",
     description: "No meat or fish",
   },
   {
     id: "vegan",
     label: "Vegan",
     emoji: "🌱",
-    color:
-      "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 border-emerald-200",
+    color: "",
     description: "Plant-based only",
   },
   {
     id: "gluten-free",
     label: "Gluten-Free",
     emoji: "🌾",
-    color: "bg-amber-100 text-amber-700 hover:bg-amber-200 border-amber-200",
+    color: "",
     description: "No gluten ingredients",
   },
   {
     id: "dairy-free",
     label: "Dairy-Free",
     emoji: "🥛",
-    color: "bg-blue-100 text-blue-700 hover:bg-blue-200 border-blue-200",
+    color: "",
     description: "No dairy products",
   },
   {
     id: "keto",
     label: "Keto",
     emoji: "🥑",
-    color:
-      "bg-purple-100 text-purple-700 hover:bg-purple-200 border-purple-200",
+    color: "",
     description: "Low carb, high fat",
   },
   {
     id: "paleo",
     label: "Paleo",
     emoji: "🦴",
-    color:
-      "bg-orange-100 text-orange-700 hover:bg-orange-200 border-orange-200",
+    color: "",
     description: "Whole foods diet",
   },
 ];
@@ -76,44 +74,63 @@ export function DietaryFilters({
   onFilterChange,
   className,
 }: DietaryFiltersProps) {
-  const [activeFilter, setActiveFilter] = useState("all");
+  const { filters, filteredRecipes } = useRecipeStore();
+
+  // Determine active filter from store
+  const activeFilter = filters.dietary?.length ? filters.dietary[0] : "all";
 
   const handleFilterClick = (filterId: string) => {
-    setActiveFilter(filterId);
     onFilterChange?.(filterId);
   };
 
   return (
     <div className={className}>
       <div className="mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 drop-shadow-lg">
           Recipes Based on Dietary Preferences
         </h2>
-        <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-rose-500 rounded-full"></div>
+        <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-purple-500 rounded-full"></div>
       </div>
 
-      {/* Desktop: Horizontal scroll, Mobile: Grid */}
-      <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-4 sm:pb-0 scrollbar-hide">
-        {dietaryFilters.map((filter) => (
-          <Button
+      {/* Compact square dietary filter buttons */}
+      <div className="flex gap-3 overflow-x-auto pb-4 sm:pb-0 scrollbar-hide">
+        {dietaryFilters.map((filter, index) => (
+          <motion.div
             key={filter.id}
-            variant={activeFilter === filter.id ? "default" : "outline"}
-            className={`
-              flex-shrink-0 h-auto p-3 sm:p-4 flex flex-col items-center gap-2 min-w-[80px] sm:min-w-[100px]
-              ${
-                activeFilter === filter.id
-                  ? "bg-gradient-to-br from-orange-500 to-rose-500 text-white border-0 shadow-lg"
-                  : filter.color
-              }
-              transition-all duration-200 hover:scale-105
-            `}
-            onClick={() => handleFilterClick(filter.id)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <span className="text-lg sm:text-xl">{filter.emoji}</span>
-            <span className="text-xs sm:text-sm font-medium text-center leading-tight">
-              {filter.label}
-            </span>
-          </Button>
+            <Button
+              variant={activeFilter === filter.id ? "default" : "outline"}
+              className={`
+                flex-shrink-0 w-16 h-16 p-2 flex flex-col items-center justify-center gap-1 rounded-xl
+                ${
+                  activeFilter === filter.id
+                    ? "bg-gradient-to-br from-emerald-500 to-purple-500 text-white border-0 shadow-lg"
+                    : "bg-white/90 backdrop-blur-sm border border-white/30 text-gray-700 hover:bg-white hover:shadow-md"
+                }
+                transition-all duration-200
+              `}
+              onClick={() => handleFilterClick(filter.id)}
+            >
+              <motion.span
+                className="text-lg"
+                animate={{
+                  scale: activeFilter === filter.id ? 1.1 : 1,
+                  rotate: activeFilter === filter.id ? [0, 10, -10, 0] : 0,
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                {filter.emoji}
+              </motion.span>
+              <span className="text-[10px] font-medium text-center leading-none">
+                {filter.label}
+              </span>
+            </Button>
+          </motion.div>
         ))}
       </div>
 
@@ -122,27 +139,41 @@ export function DietaryFilters({
         <div className="mt-4 flex items-center gap-2">
           <Badge
             variant="secondary"
-            className="bg-orange-50 text-orange-700 border-orange-200"
+            className="bg-emerald-500/20 text-white border-emerald-400/50 backdrop-blur-sm"
           >
             {dietaryFilters.find((f) => f.id === activeFilter)?.emoji}{" "}
             {dietaryFilters.find((f) => f.id === activeFilter)?.label}
           </Badge>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-white/90 drop-shadow-md">
             {dietaryFilters.find((f) => f.id === activeFilter)?.description}
           </span>
         </div>
       )}
 
       {/* Recipe count indicator */}
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-        <span className="text-sm text-gray-600">
+      <motion.div
+        className="flex items-center justify-between mt-4 pt-4 border-t border-white/20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <span className="text-sm text-white/90 drop-shadow-md">
           Showing recipes for:{" "}
-          <span className="font-medium text-gray-800">
+          <span className="font-medium text-white drop-shadow-lg">
             {dietaryFilters.find((f) => f.id === activeFilter)?.label}
           </span>
         </span>
-        <span className="text-xs text-gray-500">1 / 15</span>
-      </div>
+        <motion.span
+          className="text-xs text-white/80 drop-shadow-md"
+          key={filteredRecipes.length} // Re-animate when count changes
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          {filteredRecipes.length} recipe
+          {filteredRecipes.length !== 1 ? "s" : ""}
+        </motion.span>
+      </motion.div>
     </div>
   );
 }

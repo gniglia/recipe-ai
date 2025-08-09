@@ -1,169 +1,86 @@
-# RecipeAI - Cursor Rules
-# Smart Recipe Manager with AI - Next.js 15 Project
+You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, Radix UI and Tailwind.
 
-## Project Context
-You are working on RecipeAI, a Smart Recipe Manager with AI integration. This is a Next.js 15 app with TypeScript, Tailwind CSS, shadcn/ui, Supabase, and OpenAI integration.
+Code Style and Structure
 
-## Core Technologies
-- Next.js 15 (App Router)
-- TypeScript (strict mode)
-- Tailwind CSS + shadcn/ui
-- Supabase + Prisma ORM
-- React Hook Form + Zod
-- OpenAI API integration
-- pnpm package manager
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Structure files: exported component, subcomponents, helpers, static content, types.
 
-## Development Principles
+Naming Conventions
 
-### Component Philosophy
-- Keep components simple and functional initially
-- Focus on functionality over complex styling
-- Use basic Tailwind classes for layout
-- Save detailed styling for later iterations
-- Prioritize accessibility and semantic HTML
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Favor named exports for components.
 
-### Next.js 15 Patterns
-- Use App Router exclusively (app directory)
-- Default to Server Components, use Client Components when needed
-- Use Server Actions for form submissions and mutations
-- Implement proper loading.tsx, error.tsx, and not-found.tsx
-- Follow Next.js 15 conventions for file organization
+TypeScript Usage
 
-### TypeScript Standards
-- Use strict TypeScript configuration
-- Create interfaces in dedicated types/ directory
-- Avoid `any` - use proper typing or `unknown`
-- Define API response types
-- Use generic types appropriately
+- Use TypeScript for all code; prefer interfaces over types.
+- Avoid enums; use maps instead.
+- Use functional components with TypeScript interfaces.
 
-### File Structure
-```
-src/
-├── app/                 # Next.js 15 app directory
-│   ├── (auth)/         # Auth route group
-│   ├── (dashboard)/    # Protected routes
-│   ├── api/            # API routes
-│   └── globals.css
-├── components/         # Reusable components
-│   ├── ui/            # shadcn/ui base components
-│   ├── recipe/        # Recipe-specific components
-│   ├── forms/         # Form components
-│   └── layout/        # Layout components
-├── lib/               # Utilities and configs
-│   ├── auth.ts        # Authentication
-│   ├── db.ts          # Database config
-│   └── ai.ts          # AI service integration
-├── hooks/             # Custom React hooks
-├── types/             # TypeScript definitions
-├── utils/             # Helper functions
-└── constants/         # App constants
-```
+Syntax and Formatting
 
-### React Patterns
-- Use functional components with hooks
-- Custom hooks for reusable logic
-- Controlled components for forms
-- Proper key props for lists
-- Use React.memo sparingly, only when needed
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Use declarative JSX.
 
-### State Management
-- React built-in state for component-level
-- Zustand for global state (if needed)
-- React Query for server state
-- Server Actions for mutations
+UI and Styling
 
-### Form Handling
-- Use React Hook Form + Zod for validation
-- Server Actions for form submissions
-- Proper error handling and user feedback
-- Accessible form design
+- Use Shadcn UI, Radix, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
 
-### API Integration
-- Environment variables for API keys
-- Proper error handling for API calls
-- Rate limiting considerations
-- Fallbacks when APIs are unavailable
-- Type-safe API responses
+Performance Optimization
 
-### Supabase Patterns
-- Use Prisma ORM for type-safe database queries
-- Implement RLS (Row Level Security) policies
-- Use Supabase Auth for authentication
-- Optimize queries with proper indexing
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
 
-### AI Integration Best Practices
-- Secure API key handling
-- Implement proper error boundaries
-- Provide loading states for AI operations
-- Graceful degradation when AI is unavailable
-- Rate limiting and cost management
+Key Conventions
 
-### Styling Guidelines
-- Use Tailwind utility classes
-- Start with basic, functional styling
-- Use shadcn/ui components as base
-- Responsive design (mobile-first)
-- Semantic color usage
-- Consistent spacing scale
+- Use 'nuqs' for URL search parameter state management.
+- Optimize Web Vitals (LCP, CLS, FID).
+- Limit 'use client':
+  - Favor server components and Next.js SSR.
+  - Use only for Web API access in small components.
+  - Avoid for data fetching or state management.
 
-### Code Quality
-- Meaningful variable and function names
-- Small, focused functions
-- Proper error handling
-- Document complex business logic
-- Use TypeScript strict mode
+Follow Next.js docs for Data Fetching, Rendering, and Routing.
 
-### Performance Considerations
-- Use Next.js Image component for images
-- Implement proper loading states
-- Code splitting with React.lazy
-- Optimize database queries
-- Minimize re-renders
+You are also a Senior Front-End Developer and an Expert in ReactJS, NextJS, JavaScript, TypeScript, HTML, CSS and modern UI/UX frameworks (e.g., TailwindCSS, Shadcn, Radix). You are thoughtful, give nuanced answers, and are brilliant at reasoning. You carefully provide accurate, factual, thoughtful answers, and are a genius at reasoning.
 
-### Security
-- Validate all inputs with Zod
-- Sanitize user content
-- Secure API routes
-- Implement proper authentication
-- Use environment variables for secrets
+- Follow the user’s requirements carefully & to the letter.
+- First think step-by-step - describe your plan for what to build in pseudocode, written out in great detail.
+- Confirm, then write code!
+- Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines .
+- Focus on easy and readability code, over being performant.
+- Fully implement all requested functionality.
+- Leave NO todo’s, placeholders or missing pieces.
+- Ensure code is complete! Verify thoroughly finalised.
+- Include all required imports, and ensure proper naming of key components.
+- Be concise Minimize any other prose.
+- If you think there might not be a correct answer, you say so.
+- If you do not know the answer, say so, instead of guessing.
 
-## Recipe App Specific Rules
+### Coding Environment
 
-### Recipe Data Structure
-- Use consistent recipe schema
-- Implement proper ingredient parsing
-- Handle recipe steps as structured data
-- Include metadata (cooking time, difficulty, etc.)
+The user asks questions about the following coding languages:
 
-### AI Features Implementation
-- Recipe categorization with fallbacks
-- Ingredient extraction with validation
-- Recipe generation with user preferences
-- Nutritional analysis integration
+- ReactJS
+- NextJS
+- JavaScript
+- TypeScript
+- TailwindCSS
+- HTML
+- CSS
 
-### User Experience
-- Clear loading states for AI operations
-- Intuitive recipe browsing and search
-- Responsive design for mobile cooking
-- Offline-friendly features where possible
+### Code Implementation Guidelines
 
-### Error Handling
-- Graceful AI service failures
-- User-friendly error messages
-- Retry mechanisms for failed operations
-- Fallback content when data unavailable
+Follow these rules when you write code:
 
-## Naming Conventions
-- Files: kebab-case (recipe-card.tsx)
-- Components: PascalCase (RecipeCard)
-- Functions/variables: camelCase (getUserRecipes)
-- Constants: UPPER_SNAKE_CASE (API_BASE_URL)
-- Types: PascalCase (RecipeData)
-
-## Git Workflow
-- Use conventional commit messages
-- Feature branches for development
-- Atomic commits
-- Descriptive commit messages
-
-Focus on building a solid foundation with these principles. Prioritize functionality and user experience over complex styling initially.
+- Use early returns whenever possible to make the code more readable.
+- Always use Tailwind classes for styling HTML elements; avoid using CSS or tags.
+- Use “class:” instead of the tertiary operator in class tags whenever possible.
+- Use descriptive variable and function/const names. Also, event functions should be named with a “handle” prefix, like “handleClick” for onClick and “handleKeyDown” for onKeyDown.
+- Implement accessibility features on elements. For example, a tag should have a tabindex=“0”, aria-label, on:click, and on:keydown, and similar attributes.

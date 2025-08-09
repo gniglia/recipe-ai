@@ -2,11 +2,19 @@
 
 import { DietaryFilters } from "@/components/recipe/dietary-filters";
 import { RecipeList } from "@/components/recipe/recipe-list";
+import { useRecipeStore } from "@/stores/recipe-store";
 
 export function RecipeShowcase() {
+  const { setFilters, filters } = useRecipeStore();
+
   const handleDietaryFilterChange = (filterId: string) => {
-    // TODO: Integrate with recipe filtering logic
-    console.log("Dietary filter changed:", filterId);
+    if (filterId === "all") {
+      // Clear dietary filters
+      setFilters({ dietary: [] });
+    } else {
+      // Set single dietary filter (replace existing)
+      setFilters({ dietary: [filterId] });
+    }
   };
 
   return (
