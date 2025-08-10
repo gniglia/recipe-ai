@@ -60,7 +60,7 @@ export const predicates = {
     (cuisines: string[]) =>
     (recipe: Recipe): boolean =>
       cuisines.length === 0 ||
-      (recipe.cuisine && cuisines.includes(recipe.cuisine)),
+      (!!recipe.cuisine && cuisines.includes(recipe.cuisine)),
 
   hasDifficulty:
     (difficulty: Recipe["difficulty"]) =>
