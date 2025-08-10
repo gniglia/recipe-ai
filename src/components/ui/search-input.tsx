@@ -1,6 +1,8 @@
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
 import { forwardRef } from "react";
+
+import { Search } from "lucide-react";
+
+import { Input } from "@/components/ui/input";
 
 interface SearchInputProps extends React.ComponentProps<typeof Input> {
   variant?: "glass" | "solid";

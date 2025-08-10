@@ -1,4 +1,5 @@
 import { Clock, Users, Star } from "lucide-react";
+
 import { Recipe } from "@/types/recipe";
 
 interface RecipeMetaInfoProps {

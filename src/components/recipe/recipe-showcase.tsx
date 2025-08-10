@@ -5,7 +5,7 @@ import { RecipeList } from "@/components/recipe/recipe-list";
 import { useRecipeStore } from "@/stores/recipe-store";
 
 export function RecipeShowcase() {
-  const { setFilters, filters } = useRecipeStore();
+  const { setFilters } = useRecipeStore();
 
   const handleDietaryFilterChange = (filterId: string) => {
     if (filterId === "all") {

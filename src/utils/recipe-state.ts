@@ -1,4 +1,5 @@
 import { Recipe, RecipeFilters } from "@/types/recipe";
+
 import { applyFiltersToRecipes } from "./recipe-filters";
 
 // Pure state type

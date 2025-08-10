@@ -1,14 +1,17 @@
 "use client";
 
-import { useRecipeStore } from "@/stores/recipe-store";
-import { Recipe } from "@/types/recipe";
-import { RecipeCard } from "./recipe-card";
+import { motion } from "framer-motion";
+import { Filter, X, Sparkles, ChefHat, ArrowUpDown } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GradientButton } from "@/components/ui/gradient-button";
-import { Filter, X, Sparkles, ChefHat, ArrowUpDown } from "lucide-react";
+import { useRecipeStore } from "@/stores/recipe-store";
+import { Recipe } from "@/types/recipe";
+
+import { RecipeCard } from "./recipe-card";
 import { RecipeDetailModal } from "./recipe-detail-modal";
-import { motion } from "framer-motion";
+
 
 export function RecipeList() {
   const {

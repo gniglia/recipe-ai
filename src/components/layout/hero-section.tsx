@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+
 import {
   Sparkles,
   ChefHat,
@@ -13,11 +12,15 @@ import {
   Wand2,
   Loader2,
 } from "lucide-react";
-import { useState } from "react";
+import { toast } from "sonner";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useGenerateRecipe } from "@/hooks/use-recipes";
 import { parseIngredientsString } from "@/lib/ai-service";
 import { useRecipeStore } from "@/stores/recipe-store";
-import { toast } from "sonner";
+
 
 export function HeroSection() {
   const [ingredientInput, setIngredientInput] = useState("");

@@ -1,11 +1,13 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { Heart, Sparkles, ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { useRecipeStore } from "@/stores/recipe-store";
 import { Recipe } from "@/types/recipe";
+
 import { RecipeCard } from "./recipe-card";
-import { Button } from "@/components/ui/button";
-import { Heart, Sparkles, ArrowRight } from "lucide-react";
 
 export function FavoritesSection() {
   const { favoriteRecipeIds, recipes, setSelectedRecipe, clearFavorites } =

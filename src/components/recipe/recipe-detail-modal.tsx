@@ -1,16 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { Recipe } from "@/types/recipe";
+import { Clock, Users } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Clock, Users, ChefHat } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Recipe } from "@/types/recipe";
 
 interface RecipeDetailModalProps {
   recipe: Recipe | null;
@@ -26,8 +20,6 @@ export function RecipeDetailModal({
   if (!recipe) return null;
 
   const totalTime = recipe.prepTime + recipe.cookTime;
-  const isAI =
-    recipe.id.startsWith("ai-") || recipe.tags.includes("ai-generated");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

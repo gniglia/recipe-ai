@@ -1,18 +1,5 @@
 // Image service for recipe photos
 
-interface UnsplashPhoto {
-  id: string;
-  urls: {
-    small: string;
-    regular: string;
-    thumb: string;
-  };
-  alt_description: string;
-  user: {
-    name: string;
-  };
-}
-
 // Food-related search terms for Unsplash
 const FOOD_KEYWORDS = [
   "pasta",
@@ -97,34 +84,6 @@ export function getRecipeGradient(recipeName: string): string {
   }, 0);
 
   return gradients[Math.abs(hash) % gradients.length];
-}
-
-// Get recipe image URL - tries real photo first, falls back to gradient
-export async function getRecipeImageUrl(
-  recipeName: string,
-  recipeId: string,
-): Promise<{
-  imageUrl: string | null;
-  isPlaceholder: boolean;
-  gradient: string;
-}> {
-  // Try to get a real photo
-  const realImageUrl = await getUnsplashFoodPhoto(recipeName);
-
-  if (realImageUrl) {
-    return {
-      imageUrl: realImageUrl,
-      isPlaceholder: false,
-      gradient: getRecipeGradient(recipeName),
-    };
-  }
-
-  // Fall back to gradient placeholder
-  return {
-    imageUrl: null,
-    isPlaceholder: true,
-    gradient: getRecipeGradient(recipeName),
-  };
 }
 
 // Enhanced placeholder with recipe-themed icons

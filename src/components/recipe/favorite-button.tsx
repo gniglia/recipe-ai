@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { Heart } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 interface FavoriteButtonProps {
   isFavorite: boolean;

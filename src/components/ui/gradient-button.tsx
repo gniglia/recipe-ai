@@ -1,7 +1,9 @@
+import { ButtonHTMLAttributes, forwardRef } from "react";
+
+import { motion } from "framer-motion";
+
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface GradientVariants {
   "emerald-purple": "emerald-purple"; // from-emerald-500 to-purple-500

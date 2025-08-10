@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { Recipe, RecipeFilters } from "@/types/recipe";
+
 import { sampleRecipes } from "@/constants/sample-recipes";
+import { Recipe, RecipeFilters } from "@/types/recipe";
 import {
   RecipeState,
   recipeStateTransforms,

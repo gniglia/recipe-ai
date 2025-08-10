@@ -1,13 +1,14 @@
-import { Recipe } from "@/types/recipe";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ChefHat, Sparkles } from "lucide-react";
-import { useRecipeStore } from "@/stores/recipe-store";
 
-import { RecipeMetaInfo } from "./recipe-meta-info";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
+import { useRecipeStore } from "@/stores/recipe-store";
+import { Recipe } from "@/types/recipe";
+
 import { FavoriteButton } from "./favorite-button";
 import { RecipeImage } from "./recipe-image";
+import { RecipeMetaInfo } from "./recipe-meta-info";
 
 interface RecipeCardProps {
   recipe: Recipe;

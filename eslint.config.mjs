@@ -11,6 +11,47 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    plugins: {
+      import: (await import("eslint-plugin-import")).default,
+    },
+    rules: {
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "object",
+            "type",
+          ],
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+          pathGroups: [
+            {
+              pattern: "react",
+              group: "external",
+              position: "before",
+            },
+            {
+              pattern: "next/**",
+              group: "external",
+              position: "before",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["react", "next"],
+        },
+      ],
+      "import/no-unresolved": "off", // Disable for Next.js compatibility
+    },
+  },
 ];
 
 export default eslintConfig;

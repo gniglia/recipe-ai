@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useRecipeStore } from "@/stores/recipe-store";
 
 interface DietaryFilter {

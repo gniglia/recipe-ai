@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { Recipe } from "@/types/recipe";
 import { cn } from "@/lib/utils";
+import { Recipe } from "@/types/recipe";
 
 interface DifficultyBadgeProps {
   difficulty: Recipe["difficulty"];

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Recipe } from "@/types/recipe";
+
 import { sampleRecipes } from "@/constants/sample-recipes";
+import { Recipe } from "@/types/recipe";
 
 // Query keys for consistent cache management
 export const recipeKeys = {
@@ -62,6 +63,7 @@ const recipeAPI = {
 
   // Delete recipe
   deleteRecipe: async (id: string): Promise<void> => {
+    console.log(`Deleting recipe with id: ${id}`);
     await new Promise((resolve) => setTimeout(resolve, 500));
     // Simulate deletion
   },

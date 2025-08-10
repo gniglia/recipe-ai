@@ -1,12 +1,13 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ChefHat, Heart, Sparkles, Menu, X, Search } from "lucide-react";
-import { SearchInput } from "@/components/ui/search-input";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { ChefHat, Heart, Sparkles, Menu, X, Search } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/ui/search-input";
 import { useRecipeStore } from "@/stores/recipe-store";
 
 interface MainLayoutProps {

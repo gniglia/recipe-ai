@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { getRecipeGradient, getRecipeIcon } from "@/lib/image-service";
 
 interface RecipeImageProps {
@@ -30,11 +32,13 @@ export function RecipeImage({
     >
       {recipe.imageUrl ? (
         <>
-          <img
+          <Image
             src={recipe.imageUrl}
             alt={recipe.title}
-            className="w-full h-full object-cover"
-            loading="lazy"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={false}
           />
           {showOverlay && (
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
